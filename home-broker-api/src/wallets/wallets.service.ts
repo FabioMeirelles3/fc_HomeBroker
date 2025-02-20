@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Wallet } from './entities/wallet.entity';
 import mongoose, { Model } from 'mongoose';
+import { Wallet } from './entities/wallet.entity';
 import { WalletAsset } from './entities/wallet-asset.entity';
+import type { Asset } from '../assets/entities/asset.entity';
 
 @Injectable()
 export class WalletsService {
@@ -32,7 +33,9 @@ export class WalletsService {
         path: 'assets',
         populate: ['asset'],
       },
-    ]);
+    ]) as Promise<
+      (Wallet & { assets: (WalletAsset & { asset: Asset })[] }) | null
+    >;
   }
 
   async createWalletAsset(data: {
@@ -53,23 +56,20 @@ export class WalletsService {
         ],
         { session },
       );
-
       const walletAsset = docs[0];
-
       await this.walletSchema.updateOne(
         { _id: data.walletId },
         { $push: { assets: walletAsset._id } },
         { session },
       );
-
       await session.commitTransaction();
       return walletAsset;
-    } catch (err) {
-      console.error(err);
+    } catch (e) {
+      console.error(e);
       await session.abortTransaction();
-      throw err;
+      throw e;
     } finally {
-      session.endSession();
+      await session.endSession();
     }
   }
 }

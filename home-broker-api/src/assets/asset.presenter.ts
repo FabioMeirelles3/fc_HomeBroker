@@ -1,9 +1,9 @@
-import type { Asset } from './entities/asset.entity';
+import { Asset } from './entities/asset.entity';
 
 export class AssetPresenter {
   constructor(private asset: Asset) { }
 
-  toJson() {
+  toJSON() {
     return {
       _id: this.asset._id,
       name: this.asset.name,

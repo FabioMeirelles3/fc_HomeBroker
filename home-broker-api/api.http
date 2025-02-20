@@ -56,4 +56,4 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3000/orders?walletId={{walletId}}
+GET http://localhost:3000/orders?walletId=53be5008-7325-4ebf-9471-84b60b169858
