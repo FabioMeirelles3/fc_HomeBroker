@@ -1,7 +1,9 @@
 import type { Asset, AssetDaily, Order, Wallet } from "../models";
 
+const url = "localhost:3000";
+
 export async function getMyWallet(walletId: string): Promise<Wallet> {
-  const response = await fetch(`http://localhost:3000/wallets/${walletId}`);
+  const response = await fetch(`http://${url}/wallets/${walletId}`);
 
   if (!response.ok) {
     return null;
@@ -11,21 +13,27 @@ export async function getMyWallet(walletId: string): Promise<Wallet> {
 }
 
 export async function getAssets(): Promise<Asset[]> {
-  const response = await fetch(`http://localhost:3000/assets`);
+  const response = await fetch(`http://${url}/assets`);
   return response.json();
 }
 
 export async function getAsset(symbol: string): Promise<Asset> {
-  const response = await fetch(`http://localhost:3000/assets/${symbol}`);
+  const response = await fetch(`http://${url}/assets/${symbol}`);
   return response.json();
 }
 
 export async function getOrders(walletId: string): Promise<Order[]> {
-  const response = await fetch(`http://localhost:3000/orders?walletId=${walletId}`);
+  const response = await fetch(`http://${url}/orders?walletId=${walletId}`);
   return response.json();
 }
 
 export async function getAssetDailies(assetSymbol: string): Promise<AssetDaily[]> {
-  const response = await fetch(`http://localhost:3000/assets/${assetSymbol}/dailies`);
+  const response = await fetch(`http://${url}/assets/${assetSymbol}/dailies`);
+  return response.json();
+}
+
+export async function getWallets(): Promise<Wallet[]> {
+  const response = await fetch(`http://${url}/wallets`);
+
   return response.json();
 }

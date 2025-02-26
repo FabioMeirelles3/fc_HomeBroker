@@ -1,12 +1,6 @@
 import { Alert, Table, TableHead, TableCell, TableRow, TableHeadCell, TableBody } from "flowbite-react";
-import { Wallet } from "../models";
 import Link from "next/link";
-
-export async function getWallets(): Promise<Wallet[]> {
-  const response = await fetch(`http://localhost:3000/wallets`);
-
-  return response.json();
-}
+import { getWallets } from "../queries/queries";
 
 export async function WalletList() {
   const wallets = await getWallets();
