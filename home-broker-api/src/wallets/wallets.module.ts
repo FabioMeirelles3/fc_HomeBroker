@@ -14,5 +14,6 @@ import { WalletAsset, WalletAssetSchema } from './entities/wallet-asset.entity';
   ],
   controllers: [WalletsController],
   providers: [WalletsService],
+  exports: [WalletsService],
 })
 export class WalletsModule { }

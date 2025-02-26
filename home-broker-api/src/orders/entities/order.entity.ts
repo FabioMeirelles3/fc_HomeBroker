@@ -1,12 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import crypto from 'crypto';
 import mongoose from 'mongoose';
-import type { HydratedDocument } from 'mongoose';
-import {
-  Wallet,
-  type WalletDocument,
-} from '../../wallets/entities/wallet.entity';
-import { Asset, type AssetDocument } from '../../assets/entities/asset.entity';
+import { HydratedDocument } from 'mongoose';
+import { Wallet, WalletDocument } from '../../wallets/entities/wallet.entity';
+import { Asset, AssetDocument } from '../../assets/entities/asset.entity';
+import { Trade } from './trade.entity';
 
 export type OrderDocument = HydratedDocument<Order>;
 
@@ -22,7 +20,7 @@ export enum OrderStatus {
   FAILED = 'FAILED',
 }
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, optimisticConcurrency: true })
 export class Order {
   @Prop({ default: () => crypto.randomUUID() })
   _id: string;
@@ -47,6 +45,9 @@ export class Order {
 
   @Prop()
   status: OrderStatus;
+
+  @Prop({ type: [mongoose.Schema.Types.String], ref: 'Trade' })
+  trades: Trade[] | string[];
 
   createdAt!: Date;
   updatedAt!: Date;

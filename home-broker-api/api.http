@@ -64,8 +64,8 @@ Content-Type: application/json
     "assetId": "{{ assetId }}",
     "shares": 10,
     "price": 100,
-    "type": "BUY"
+    "type": "SELL"
 }
 
 ###
-GET http://localhost:3000/orders?walletId=fcc4de1c-f0fb-4c1e-afbb-f259f1672447
+GET http://localhost:3000/orders?walletId=4a940863-5310-4ec5-83b8-c1b69d33f37c
